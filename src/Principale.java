@@ -15,6 +15,3 @@ public class Principale{
 	fenetre.getContentPane().requestFocusInWindow();
     }
 }
-//dégradé vert
-//allumage de la case
-//arrondi
