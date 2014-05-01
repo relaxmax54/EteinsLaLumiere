@@ -12,6 +12,10 @@ public class Grille extends JPanel{
 	 */
 	private Lampe[][] lampe;
 	/*
+	 * nombre de lampes allumées
+	 */
+	private static int lampeAllumees=0;
+	/*
 	 * Attribut listener 
 	 */
 	private ActionListener listener;
@@ -19,13 +23,7 @@ public class Grille extends JPanel{
 	 * Attribut définissant le nombre de coups joués
 	 */
 	private int move=Principale.MOVE;
-	/*
-	 * Les différents modes du jeu :
-	 * 0 accueil : pas de réaction sans sélectionner un mode
-	 * 1 jouer : les boutons réagissent à partir d'un état de départ
-	 * 2 configurer : les boutons enregistrent les actions sans réagir
-	 */
-	private int mode=0;
+
 	/*
 	 * constructeur
 	 */
@@ -37,33 +35,46 @@ public class Grille extends JPanel{
 		 */
 		listener=new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				switch (mode){//on réagit en fonction des modes sélectionnés
+				int ligne,colonne;
+				switch (Principale.MODE){//on réagit en fonction des modes sélectionnés
 				case 0://mode accueil
-					if(move>0){
-
-					}
-					move--;
 					break;
 				case 1://mode jouer
 					if(move>0){
-						int ligne=(((Lampe)((JToggleButton)(e.getSource()))).getl());
-						int colonne=(((Lampe)((JToggleButton)(e.getSource()))).getc());
-						System.out.println("1: "+ligne+"/"+colonne);
+						ligne=(((Lampe)((JToggleButton)(e.getSource()))).getl());
+						colonne=(((Lampe)((JToggleButton)(e.getSource()))).getc());
 						lampe[ligne][colonne].changeEtat();
-						lampe[ligne-1][colonne].changeEtat();
-						lampe[ligne+1][colonne].changeEtat();
-						lampe[ligne][colonne-1].changeEtat();
-						lampe[ligne][colonne+1].changeEtat();
+						if(ligne-1<0)
+							lampe[Principale.TAILLEGRILLE-1][colonne].changeEtat();
+						else
+							lampe[ligne-1][colonne].changeEtat();
+						if(ligne+1>Principale.TAILLEGRILLE-1)
+							lampe[0][colonne].changeEtat();
+						else
+							lampe[ligne+1][colonne].changeEtat();
+						if(colonne-1<0)
+							lampe[ligne][Principale.TAILLEGRILLE-1].changeEtat();
+						else
+							lampe[ligne][colonne-1].changeEtat();
+						if(colonne+1>Principale.TAILLEGRILLE-1)
+							lampe[ligne][0].changeEtat();
+						else
+							lampe[ligne][colonne+1].changeEtat();
 					}
 					move--;
 					break;
+
 				case 2://mode configurer
-					
+
+					ligne=(((Lampe)((JToggleButton)(e.getSource()))).getl());
+					colonne=(((Lampe)((JToggleButton)(e.getSource()))).getc());
+					System.out.println("1: "+ligne+"/"+colonne);
+					lampe[ligne][colonne].changeEtat();
 					break;
 				case 3://mode aléatoire
-					for(int i=0;i<Principale.NBCASESAUDEPART;i++){
-						int ligne=(int)(Math.random()*Principale.TAILLEGRILLE);
-						int colonne=(int)(Math.random()*Principale.TAILLEGRILLE);
+					for(int i=0;i<Principale.NBLAMPESAUDEPART;i++){
+						ligne=(int)(Math.random()*Principale.TAILLEGRILLE);
+						colonne=(int)(Math.random()*Principale.TAILLEGRILLE);
 						lampe[ligne][colonne].changeEtat();
 					}
 				default:
@@ -75,13 +86,13 @@ public class Grille extends JPanel{
 			for(int j=0;j<Principale.TAILLEGRILLE;j++){
 				lampe[i][j]=new Lampe(false,i,j);
 				lampe[i][j].addActionListener(listener);	
-				lampe[i][j].setActionCommand(Integer.toString(i));	
+				lampe[i][j].setActionCommand(Integer.toString(i));
 				add(lampe[i][j]);
 			}
 		}
 	}
 	public void setMode(int m){
-		this.mode=m;
+		Principale.MODE=m;
 	}
 }
 

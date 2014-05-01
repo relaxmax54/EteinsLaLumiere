@@ -6,13 +6,14 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
+
 import javax.swing.JButton;
 import javax.swing.JToggleButton;
 /**
  * classe qui modélise le comportement des Lampes
  */
 public class Lampe extends JToggleButton{
-	public static int TAILLEGRILLE=15;
+	public static int lampesAllumees=0;
 	private static ActionListener listener;
 /**
  * attribut qui qualifie l'état de la lampe
@@ -55,11 +56,18 @@ public class Lampe extends JToggleButton{
 	 *@param c : int colonne du tableau
 	 */
 	public void changeEtat(){
-
-		if(this.isSelected())
+		System.out.print(this.isSelected());
+		if(this.isSelected()){
 			this.setSelected(false);
-		else
+			lampesAllumees--;
+		}else{
 			this.setSelected(true);
+			lampesAllumees++;
+		}
+		if(lampesAllumees==0)
+			Principale.MODE=4;
+		System.out.print(this.isSelected());
+		System.out.print(lampesAllumees);
 	}
 /**
  * ????????????????????

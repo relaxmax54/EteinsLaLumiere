@@ -11,26 +11,33 @@ import javax.swing.JTextField;
  */
 public class Ihm extends JPanel{
 	private ActionListener listener;
+	private JButton[] mode; 
 	/*
 	 * constructeur
 	 */
 	public Ihm(){
 		setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
 		String[] texte={"Configurer","Aléatoire","Jouer","0"};
-		JButton mode[]=new JButton[4];
+		mode=new JButton[4];
 		//construction du listener
 		listener=new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				switch (((JButton)(e.getSource())).getText()){
 					case "Configurer":
-						//setMode(2);
+						Principale.MODE=2;
+						for(int i=0;i<Principale.TAILLEGRILLE;i++){
+							for(int j=0;j<Principale.TAILLEGRILLE;j++){
+								lampe[i][j].setSelected(false);
+							}
+						}
+						repaint();
+						//this.((JButton)(e.getSource())
 						break;
 					case "Aléatoire":
-						break;
-					case "*":
-						break;
-					case "Clr":
-						break;
+						Principale.MODE=3;
+					case "Jouer":
+						Principale.MODE=1;
+						mode[3].setText(Integer.toString(Principale.MOVE));
 					default:
 						System.out.println(((JButton)(e.getSource())).getText());
 						break;
