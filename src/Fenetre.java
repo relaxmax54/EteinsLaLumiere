@@ -50,18 +50,23 @@ public class Fenetre extends JFrame{
 		contenant.setPreferredSize(new Dimension(600,400));
 		contenant.setLayout(new BorderLayout());
 		/*
+		 * on crée un ActionListener commun à tous les composants
+		 */
+		Ihm ecouteur=new Ihm();
+		/*
 		 * On crée et on ajoute le composant IHM pour Interface Home Machine
 		 */
-		JPanel ihm = new JPanel();
-		ihm.setLayout(new BoxLayout(ihm,BoxLayout.PAGE_AXIS));
+		JPanel boutons = new JPanel();
+		boutons.setLayout(new BoxLayout(boutons,BoxLayout.PAGE_AXIS));
 		String[] texte={"Configurer","Aléatoire","Jouer","0"};
 		mode=new JButtonArrondi[4];
 		for(int i=0;i<4;i++){
 			mode[i]=new JButtonArrondi(texte[i]);
-			ihm.add(mode[i]);	
-			mode[i].addActionListener(new EcouteIhm());
+			mode[i].addActionListener(ecouteur);
+			boutons.add(mode[i]);	
 		}
-		contenant.add(ihm,BorderLayout.WEST);
+		mode[3].setEnabled(false);
+		contenant.add(boutons,BorderLayout.WEST);
 		/*
 		 * On crée et on ajoute le composant grille qui représente les lampes
 		 */
@@ -71,8 +76,7 @@ public class Fenetre extends JFrame{
 		for(int i=0;i<TAILLEGRILLE;i++){
 			for(int j=0;j<TAILLEGRILLE;j++){
 				lampe[i][j]=new Lampe(false,i,j);
-				lampe[i][j].addActionListener(new EcouteGrille());	
-				//lampe[i][j].setActionCommand(Integer.toString(i));
+				lampe[i][j].addActionListener(ecouteur);	
 				grille.add(lampe[i][j]);
 			}
 		}
@@ -80,15 +84,15 @@ public class Fenetre extends JFrame{
 		this.setContentPane(contenant);
 	}
 	/*
-	 * Déclaration de deux classes interne chargées d'écouter les composants et de réagir en conséquence
+	 * Déclaration de la classe interne chargée d'écouter les composants et de réagir en conséquence
 	 */
-	class EcouteIhm implements ActionListener{
-		public void actionPerformed(ActionEvent e) {
-	    	System.out.println(e);
-			switch (((JButton)(e.getSource())).getText()){
+	class Ihm implements ActionListener{
+		public void actionPerformed(ActionEvent e){
+			int ligne,colonne;
+	    	System.out.println(e.getActionCommand());
+	    	switch (e.getActionCommand()){
 			case "Configurer":
 				MODE=2;
-				//this.((JButton)(e.getSource())
 				break;
 			case "Aléatoire":
 				MODE=3;
@@ -98,58 +102,54 @@ public class Fenetre extends JFrame{
 				mode[3].setText(Integer.toString(MOVE));
 				break;
 			default:
-				System.out.println(((JButton)(e.getSource())).getText());
-				break;
-			}
-		}
-	}
-	class EcouteGrille implements ActionListener{
-	   	public void actionPerformed(ActionEvent e) {
-			System.out.println(e);
-			int ligne,colonne;
-			switch (MODE){//on réagit en fonction des modes sélectionnés
-			case 0://mode accueil
-				break;
-			case 1://mode jouer
-				if(move>0){
-					ligne=(((Lampe)((JToggleButton)(e.getSource()))).getl());
-					colonne=(((Lampe)((JToggleButton)(e.getSource()))).getc());
-					lampe[ligne][colonne].changeEtat();
-					if(ligne-1<0)
-						lampe[TAILLEGRILLE-1][colonne].changeEtat();
-					else
-						lampe[ligne-1][colonne].changeEtat();
-					if(ligne+1>TAILLEGRILLE-1)
-						lampe[0][colonne].changeEtat();
-					else
-						lampe[ligne+1][colonne].changeEtat();
-					if(colonne-1<0)
-						lampe[ligne][TAILLEGRILLE-1].changeEtat();
-					else
-						lampe[ligne][colonne-1].changeEtat();
-					if(colonne+1>TAILLEGRILLE-1)
-						lampe[ligne][0].changeEtat();
-					else
-						lampe[ligne][colonne+1].changeEtat();
-				}
-				move--;
-				break;
-
-			case 2://mode configurer
-
 				ligne=(((Lampe)((JToggleButton)(e.getSource()))).getl());
 				colonne=(((Lampe)((JToggleButton)(e.getSource()))).getc());
 				System.out.println("1: "+ligne+"/"+colonne);
-				lampe[ligne][colonne].changeEtat();
-				break;
-			case 3://mode aléatoire
-
-				for(int i=1;i<NBLAMPESAUDEPART;i++){
-					ligne=(int)(Math.random()*TAILLEGRILLE);
-					colonne=(int)(Math.random()*TAILLEGRILLE);
+				switch (MODE){//on réagit en fonction des modes sélectionnés
+				case 0://mode accueil
+					break;
+				case 1://mode jouer
+					if(move>0){
+						ligne=(((Lampe)((JToggleButton)(e.getSource()))).getl());
+						colonne=(((Lampe)((JToggleButton)(e.getSource()))).getc());
+						lampe[ligne][colonne].changeEtat();
+						if(ligne-1<0)
+							lampe[TAILLEGRILLE-1][colonne].changeEtat();
+						else
+							lampe[ligne-1][colonne].changeEtat();
+						if(ligne+1>TAILLEGRILLE-1)
+							lampe[0][colonne].changeEtat();
+						else
+							lampe[ligne+1][colonne].changeEtat();
+						if(colonne-1<0)
+							lampe[ligne][TAILLEGRILLE-1].changeEtat();
+						else
+							lampe[ligne][colonne-1].changeEtat();
+						if(colonne+1>TAILLEGRILLE-1)
+							lampe[ligne][0].changeEtat();
+						else
+							lampe[ligne][colonne+1].changeEtat();
+						move--;
+						mode[3].setText(Integer.toString(move));
+						if(move==0)
+							MODE=4;
+					}
+					break;
+				case 2://mode configurer
+					ligne=(((Lampe)((JToggleButton)(e.getSource()))).getl());
+					colonne=(((Lampe)((JToggleButton)(e.getSource()))).getc());
+					System.out.println("1: "+ligne+"/"+colonne);
 					lampe[ligne][colonne].changeEtat();
+					break;
+				case 3://mode aléatoire
+					for(int i=1;i<NBLAMPESAUDEPART;i++){
+						ligne=(int)(Math.random()*TAILLEGRILLE);
+						colonne=(int)(Math.random()*TAILLEGRILLE);
+						lampe[ligne][colonne].changeEtat();
+					}
+				default:
+					break;
 				}
-			default:
 				break;
 			}
 		}

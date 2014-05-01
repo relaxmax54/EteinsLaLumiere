@@ -71,7 +71,6 @@ public class Lampe extends JToggleButton{
 			lampesAllumees++;
 		}
 		if(lampesAllumees==0)
-			Principale.MODE=4;
 		System.out.print(this.isSelected());
 		System.out.print(lampesAllumees);
 	}
