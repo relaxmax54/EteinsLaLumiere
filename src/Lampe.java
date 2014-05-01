@@ -6,13 +6,13 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
-
 import javax.swing.JButton;
 import javax.swing.JToggleButton;
 /**
  * classe qui modélise le comportement des Lampes
  */
 public class Lampe extends JToggleButton{
+	public static int TAILLEGRILLE=15;
 	private static ActionListener listener;
 	/**
 	 * paramètre le nombre de cases sélectionnées au départ en mode de jeu avec génération aléatoire
@@ -23,21 +23,47 @@ public class Lampe extends JToggleButton{
  * false : éteint / true : allumé
  */
 	private boolean etat;
+	/**
+	 * attributs qui permet de retrouver les coordonnées d'une lampe dans la grille
+	 * le coin supérieur gauche fait office d'origine
+	 */
+	private int l;
+	private int c;
 /**
  * constructeur
- * @param e : booléen état de la lampe au départ	
+ * @param e : booléen état de la lampe au départ
+ * @param l : n° ligne du bouton
+ * @param c : n° colonne du bouton	
  */
-	public Lampe(boolean e){
+	public Lampe(boolean e,int l,int c){
 		this.etat=e;
 		this.setBackground(Color.green);
+		this.l=l;
+		this.c=c;
+	}
+	/**
+	 * getters pour récupérer l'abcisse d'un bouton
+	 */
+	public int getl(){
+		return this.l;
+	}
+	/**
+	 * getters pour récupérer l'ordonnée d'un bouton
+	 */	
+	public int getc(){
+		return this.c;
 	}
 	/**
 	 * permet de modifier les états des boutons à chaque coup
 	 *@param l : int ligne du tableau
 	 *@param c : int colonne du tableau
 	 */
-	public void action(int l,int c){
-		
+	public void changeEtat(){
+
+		if(this.isSelected())
+			this.setSelected(false);
+		else
+			this.setSelected(true);
 	}
 	/**
 	 * crée un jeu de départ aléatoire

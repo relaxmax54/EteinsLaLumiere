@@ -1,4 +1,3 @@
-import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,6 +8,8 @@ import javax.swing.JToggleButton;
 public class Grille extends JPanel{
 	/*
 	 * Attribut définissant la taille de la grille
+	 * TAILLEGRILLE	: maximum de lampes par côté dans une grille
+	 * MOVE			: maximum de coups autorisés au joueur 
 	 */
 	public final int TAILLEGRILLE=5;
 	public final int MOVE=15;
@@ -35,7 +36,7 @@ public class Grille extends JPanel{
 	 * constructeur
 	 */
 	public Grille(){
-		setLayout(new GridLayout(5,5));
+		setLayout(new GridLayout(TAILLEGRILLE,TAILLEGRILLE));
 		lampe=new Lampe[TAILLEGRILLE][TAILLEGRILLE];
 		/*
 		 * construction du listener
@@ -43,16 +44,26 @@ public class Grille extends JPanel{
 		listener=new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				switch (mode){//on réagit en fonction des modes sélectionnés
-				case 0://accueil
+				case 0://mode accueil
 					if(move>0){
-						System.out.println(e);
-						System.out.println(((JToggleButton)(e.getSource())).getText());
-						move--;
+
 					}
+					move--;
 					break;
-				case 1://jouer
+				case 1://mode jouer
+					if(move>0){
+						int ligne=(((Lampe)((JToggleButton)(e.getSource()))).getl());
+						int colonne=(((Lampe)((JToggleButton)(e.getSource()))).getc());
+						System.out.println("1: "+ligne+"/"+colonne);
+						lampe[ligne][colonne].changeEtat();
+						lampe[ligne-1][colonne].changeEtat();
+						lampe[ligne+1][colonne].changeEtat();
+						lampe[ligne][colonne-1].changeEtat();
+						lampe[ligne][colonne+1].changeEtat();
+					}
+					move--;
 					break;
-				case 2://configurer
+				case 2://mode configurer
 					
 					break;
 				default:
@@ -60,9 +71,9 @@ public class Grille extends JPanel{
 				}
 			}
 		};
-		for(int i=0;i<5;i++){
-			for(int j=0;j<5;j++){
-				lampe[i][j]=new Lampe(false);
+		for(int i=0;i<TAILLEGRILLE;i++){
+			for(int j=0;j<TAILLEGRILLE;j++){
+				lampe[i][j]=new Lampe(false,i,j);
 				lampe[i][j].addActionListener(listener);	
 				lampe[i][j].setActionCommand(Integer.toString(i));	
 				add(lampe[i][j]);

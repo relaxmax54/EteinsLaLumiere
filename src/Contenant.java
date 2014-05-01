@@ -14,8 +14,7 @@ public class Contenant extends JPanel{
 		Ihm gauche=new Ihm();
 		Grille droite=new Grille();
 		
-		add(gauche,BorderLayout.CENTER);
-		add(droite,BorderLayout.CENTER
-				);
+		add(gauche,BorderLayout.WEST);
+		add(droite,BorderLayout.CENTER);
 	}
 }
