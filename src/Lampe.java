@@ -14,10 +14,6 @@ import javax.swing.JToggleButton;
 public class Lampe extends JToggleButton{
 	public static int TAILLEGRILLE=15;
 	private static ActionListener listener;
-	/**
-	 * paramètre le nombre de cases sélectionnées au départ en mode de jeu avec génération aléatoire
-	 */
-	private final int NBCASESAUDEPART=6;
 /**
  * attribut qui qualifie l'état de la lampe
  * false : éteint / true : allumé
@@ -65,15 +61,9 @@ public class Lampe extends JToggleButton{
 		else
 			this.setSelected(true);
 	}
-	/**
-	 * crée un jeu de départ aléatoire
-	 */
-	public void aleatoire(){
-		for(int i=0;i<NBCASESAUDEPART;i++){
-			int l=Math.random(TAILLEGRILLE);
-			int c=Math.random(TAILLEGRILLE);
-		}
-	}
+/**
+ * ????????????????????
+ */
 	@Override
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;

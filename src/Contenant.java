@@ -5,6 +5,7 @@ import javax.swing.JPanel;
  * Classe modélisant le conteneur principal du jeu
  */
 public class Contenant extends JPanel{
+
 	//private Ihm gauche;//conteneur de l'interface positionné à gauche
 	//private Grille droite;//conteneur de la grille positionné à droite
 	

@@ -1,18 +1,12 @@
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 
 
 public class Grille extends JPanel{
-	/*
-	 * Attribut définissant la taille de la grille
-	 * TAILLEGRILLE	: maximum de lampes par côté dans une grille
-	 * MOVE			: maximum de coups autorisés au joueur 
-	 */
-	public final int TAILLEGRILLE=5;
-	public final int MOVE=15;
 	/*
 	 * tableau des lampes
 	 */
@@ -24,7 +18,7 @@ public class Grille extends JPanel{
 	/*
 	 * Attribut définissant le nombre de coups joués
 	 */
-	private int move=MOVE;
+	private int move=Principale.MOVE;
 	/*
 	 * Les différents modes du jeu :
 	 * 0 accueil : pas de réaction sans sélectionner un mode
@@ -36,8 +30,8 @@ public class Grille extends JPanel{
 	 * constructeur
 	 */
 	public Grille(){
-		setLayout(new GridLayout(TAILLEGRILLE,TAILLEGRILLE));
-		lampe=new Lampe[TAILLEGRILLE][TAILLEGRILLE];
+		setLayout(new GridLayout(Principale.TAILLEGRILLE,Principale.TAILLEGRILLE));
+		lampe=new Lampe[Principale.TAILLEGRILLE][Principale.TAILLEGRILLE];
 		/*
 		 * construction du listener
 		 */
@@ -66,19 +60,28 @@ public class Grille extends JPanel{
 				case 2://mode configurer
 					
 					break;
+				case 3://mode aléatoire
+					for(int i=0;i<Principale.NBCASESAUDEPART;i++){
+						int ligne=(int)(Math.random()*Principale.TAILLEGRILLE);
+						int colonne=(int)(Math.random()*Principale.TAILLEGRILLE);
+						lampe[ligne][colonne].changeEtat();
+					}
 				default:
 					break;
 				}
 			}
 		};
-		for(int i=0;i<TAILLEGRILLE;i++){
-			for(int j=0;j<TAILLEGRILLE;j++){
+		for(int i=0;i<Principale.TAILLEGRILLE;i++){
+			for(int j=0;j<Principale.TAILLEGRILLE;j++){
 				lampe[i][j]=new Lampe(false,i,j);
 				lampe[i][j].addActionListener(listener);	
 				lampe[i][j].setActionCommand(Integer.toString(i));	
 				add(lampe[i][j]);
 			}
 		}
+	}
+	public void setMode(int m){
+		this.mode=m;
 	}
 }
 

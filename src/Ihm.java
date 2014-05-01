@@ -23,6 +23,7 @@ public class Ihm extends JPanel{
 			public void actionPerformed(ActionEvent e){
 				switch (((JButton)(e.getSource())).getText()){
 					case "Configurer":
+						//setMode(2);
 						break;
 					case "Aléatoire":
 						break;
@@ -37,7 +38,7 @@ public class Ihm extends JPanel{
 			}
 		};
 		for(int i=0;i<4;i++){
-			mode[i]=new JButton(texte[i]);
+			mode[i]=new JButtonArrondi(texte[i]);
 			add(mode[i]);
 			//mode[i].setActionCommand(Integer.toString(i));	
 			mode[i].addActionListener(listener);
