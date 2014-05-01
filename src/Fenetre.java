@@ -31,7 +31,7 @@ public class Fenetre extends JFrame{
 	// tableau des lampes 
 	private Lampe[][] lampe;
 	// nombre de lampes allumées
-	private static int lampeAllumees=0;
+	private static int lampesAllumees=0;
 	// Attribut définissant le nombre de coups joués
 	private int move=MOVE;
 	/**
@@ -83,6 +83,14 @@ public class Fenetre extends JFrame{
 		contenant.add(grille,BorderLayout.CENTER);
 		this.setContentPane(contenant);
 	}
+	private void initialiserGrille(){
+		for(int i=0;i<TAILLEGRILLE;i++){
+			for(int j=0;j<TAILLEGRILLE;j++){
+				lampe[i][j].setSelected(false);
+				lampesAllumees=0;
+			}
+		}
+	}
 	/*
 	 * Déclaration de la classe interne chargée d'écouter les composants et de réagir en conséquence
 	 */
@@ -93,12 +101,22 @@ public class Fenetre extends JFrame{
 	    	switch (e.getActionCommand()){
 			case "Configurer":
 				MODE=2;
+				mode[3].setText(Integer.toString(0));
+				initialiserGrille();
 				break;
 			case "Aléatoire":
 				MODE=3;
+				mode[3].setText(Integer.toString(0));
+				initialiserGrille();
+				for(int i=1;i<NBLAMPESAUDEPART;i++){
+					ligne=(int)(Math.random()*TAILLEGRILLE);
+					colonne=(int)(Math.random()*TAILLEGRILLE);
+					lampe[ligne][colonne].changeEtat();
+				}
 				break;
 			case "Jouer":
 				MODE=1;
+				move=15;
 				mode[3].setText(Integer.toString(MOVE));
 				break;
 			default:
@@ -109,10 +127,19 @@ public class Fenetre extends JFrame{
 				case 0://mode accueil
 					break;
 				case 1://mode jouer
-					if(move>0){
+					if(move>0){					
 						ligne=(((Lampe)((JToggleButton)(e.getSource()))).getl());
 						colonne=(((Lampe)((JToggleButton)(e.getSource()))).getc());
-						lampe[ligne][colonne].changeEtat();
+						//
+						if(ligne-1>-1)
+							lampe[ligne-1][colonne].changeEtat();
+						if(ligne+1<TAILLEGRILLE)
+							lampe[ligne+1][colonne].changeEtat();
+						if(colonne-1>-1)
+							lampe[ligne][colonne-1].changeEtat();
+						if(colonne+1<TAILLEGRILLE)
+							lampe[ligne][colonne+1].changeEtat();
+						/*
 						if(ligne-1<0)
 							lampe[TAILLEGRILLE-1][colonne].changeEtat();
 						else
@@ -129,24 +156,20 @@ public class Fenetre extends JFrame{
 							lampe[ligne][0].changeEtat();
 						else
 							lampe[ligne][colonne+1].changeEtat();
+						*/
 						move--;
 						mode[3].setText(Integer.toString(move));
-						if(move==0)
+						if(move==0)//fin du jeu
 							MODE=4;
 					}
 					break;
 				case 2://mode configurer
-					ligne=(((Lampe)((JToggleButton)(e.getSource()))).getl());
-					colonne=(((Lampe)((JToggleButton)(e.getSource()))).getc());
-					System.out.println("1: "+ligne+"/"+colonne);
-					lampe[ligne][colonne].changeEtat();
 					break;
 				case 3://mode aléatoire
-					for(int i=1;i<NBLAMPESAUDEPART;i++){
-						ligne=(int)(Math.random()*TAILLEGRILLE);
-						colonne=(int)(Math.random()*TAILLEGRILLE);
-						lampe[ligne][colonne].changeEtat();
-					}
+					lampe[ligne][colonne].changeEtat();
+					break;
+				case 4://Fin du jeu
+					lampe[ligne][colonne].changeEtat();
 				default:
 					break;
 				}
