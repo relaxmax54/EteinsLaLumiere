@@ -65,14 +65,15 @@ public class Grille extends JPanel{
 					break;
 
 				case 2://mode configurer
-
+					initialise();
 					ligne=(((Lampe)((JToggleButton)(e.getSource()))).getl());
 					colonne=(((Lampe)((JToggleButton)(e.getSource()))).getc());
 					System.out.println("1: "+ligne+"/"+colonne);
 					lampe[ligne][colonne].changeEtat();
 					break;
 				case 3://mode aléatoire
-					for(int i=0;i<Principale.NBLAMPESAUDEPART;i++){
+					initialise();
+					for(int i=1;i<Principale.NBLAMPESAUDEPART;i++){
 						ligne=(int)(Math.random()*Principale.TAILLEGRILLE);
 						colonne=(int)(Math.random()*Principale.TAILLEGRILLE);
 						lampe[ligne][colonne].changeEtat();
@@ -93,6 +94,14 @@ public class Grille extends JPanel{
 	}
 	public void setMode(int m){
 		Principale.MODE=m;
+	}
+	public void initialise(){
+		for(int i=0;i<Principale.TAILLEGRILLE;i++){
+			for(int j=0;j<Principale.TAILLEGRILLE;j++){
+				lampe[i][j].setEtat();
+				lampe[i][j].setSelected(false);
+			}
+		}
 	}
 }
 

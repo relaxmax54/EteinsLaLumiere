@@ -51,6 +51,12 @@ public class Lampe extends JToggleButton{
 		return this.c;
 	}
 	/**
+	 * setter pour initialiser l'état d'un bouton
+	 */
+	public void setEtat(){
+		this.etat=false;
+	}
+	/**
 	 * permet de modifier les états des boutons à chaque coup
 	 *@param l : int ligne du tableau
 	 *@param c : int colonne du tableau

@@ -25,19 +25,15 @@ public class Ihm extends JPanel{
 				switch (((JButton)(e.getSource())).getText()){
 					case "Configurer":
 						Principale.MODE=2;
-						for(int i=0;i<Principale.TAILLEGRILLE;i++){
-							for(int j=0;j<Principale.TAILLEGRILLE;j++){
-								lampe[i][j].setSelected(false);
-							}
-						}
-						repaint();
 						//this.((JButton)(e.getSource())
 						break;
 					case "Aléatoire":
 						Principale.MODE=3;
+						break;
 					case "Jouer":
 						Principale.MODE=1;
 						mode[3].setText(Integer.toString(Principale.MOVE));
+						break;
 					default:
 						System.out.println(((JButton)(e.getSource())).getText());
 						break;
