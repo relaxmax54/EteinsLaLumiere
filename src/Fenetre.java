@@ -139,24 +139,6 @@ public class Fenetre extends JFrame{
 							lampe[ligne][colonne-1].changeEtat();
 						if(colonne+1<TAILLEGRILLE)
 							lampe[ligne][colonne+1].changeEtat();
-						/*
-						if(ligne-1<0)
-							lampe[TAILLEGRILLE-1][colonne].changeEtat();
-						else
-							lampe[ligne-1][colonne].changeEtat();
-						if(ligne+1>TAILLEGRILLE-1)
-							lampe[0][colonne].changeEtat();
-						else
-							lampe[ligne+1][colonne].changeEtat();
-						if(colonne-1<0)
-							lampe[ligne][TAILLEGRILLE-1].changeEtat();
-						else
-							lampe[ligne][colonne-1].changeEtat();
-						if(colonne+1>TAILLEGRILLE-1)
-							lampe[ligne][0].changeEtat();
-						else
-							lampe[ligne][colonne+1].changeEtat();
-						*/
 						move--;
 						mode[3].setText(Integer.toString(move));
 						if(move==0)//fin du jeu
