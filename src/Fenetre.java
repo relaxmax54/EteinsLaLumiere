@@ -3,6 +3,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -100,17 +101,21 @@ public class Fenetre extends JFrame{
 	    	System.out.println(e.getActionCommand());
 	    	switch (e.getActionCommand()){
 			case "Configurer":
+				if(MODE!=3)
+					initialiserGrille();
 				MODE=2;
 				mode[3].setText(Integer.toString(0));
-				initialiserGrille();
 				break;
 			case "Aléatoire":
 				MODE=3;
 				mode[3].setText(Integer.toString(0));
 				initialiserGrille();
-				for(int i=1;i<NBLAMPESAUDEPART;i++){
-					ligne=(int)(Math.random()*TAILLEGRILLE);
-					colonne=(int)(Math.random()*TAILLEGRILLE);
+				while(lampesAllumees<NBLAMPESAUDEPART){
+					Random r1 = new Random();
+					ligne = r1.nextInt(TAILLEGRILLE);
+					Random r2 = new Random();
+					colonne = r2.nextInt(TAILLEGRILLE);
+					System.out.print(ligne+"/"+colonne);
 					lampe[ligne][colonne].changeEtat();
 				}
 				break;
