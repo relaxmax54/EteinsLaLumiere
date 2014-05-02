@@ -4,22 +4,23 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.RoundRectangle2D;
-
 import javax.swing.JButton;
 
-
 public class JButtonArrondi extends JButton{
-
-	public JButtonArrondi(String aNameString){
-		super(aNameString);
-	               setContentAreaFilled(false);
+	/**
+	 * constructeur du bouton personnalisé
+	 * @param nom :	String		nom du bouton
+	 */
+	public JButtonArrondi(String nom){
+		super(nom);
+	    	setContentAreaFilled(false);
 	}
-	
+	/**
+	 * surcharge de la méthode d'affichage du bouton pour un modéle plus personnalisé
+	 */
 	@Override
 	protected void paintComponent(Graphics g) {
-	
 		Graphics2D g2d=(Graphics2D) g;
-	
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		int w = getWidth();
 	    int h = getHeight();

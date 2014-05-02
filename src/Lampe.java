@@ -1,39 +1,31 @@
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
-
-import javax.swing.JButton;
 import javax.swing.JToggleButton;
 /**
  * classe qui modélise le comportement des Lampes
  */
 public class Lampe extends JToggleButton{
-	public static int lampesAllumees=0;
-	private static ActionListener listener;
-/**
- * attribut qui qualifie l'état de la lampe
- * false : éteint / true : allumé
- */
-	private boolean etat;
+	/**
+	 * nombre de lampes allumées
+	 */
+	private static int lampesAllumees=0;
 	/**
 	 * attributs qui permet de retrouver les coordonnées d'une lampe dans la grille
 	 * le coin supérieur gauche fait office d'origine
 	 */
 	private int l;
 	private int c;
-/**
- * constructeur
- * @param e : booléen état de la lampe au départ
- * @param l : n° ligne du bouton
- * @param c : n° colonne du bouton	
- */
-	public Lampe(boolean e,int l,int c){
-		this.etat=e;
+	/**
+	 * constructeur
+	 * @param e : booléen état de la lampe au départ
+	 * @param l : n° ligne du bouton
+	 * @param c : n° colonne du bouton	
+	 */
+	public Lampe(int l,int c){
 		this.setBackground(Color.green);
 		this.l=l;
 		this.c=c;
@@ -51,10 +43,16 @@ public class Lampe extends JToggleButton{
 		return this.c;
 	}
 	/**
-	 * setter pour initialiser l'état d'un bouton
+	 * getter pour connaître l'état du jeu
 	 */
-	public void setEtat(){
-		this.etat=false;
+	public static int getLampesAllumees(){
+		return lampesAllumees;
+	}
+	/**
+	 * setter pour réinitialiser le nombre de lampes allumées
+	 */
+	public static void initialiseLampes(){
+		lampesAllumees=0;
 	}
 	/**
 	 * permet de modifier les états des boutons à chaque coup
@@ -62,7 +60,6 @@ public class Lampe extends JToggleButton{
 	 *@param c : int colonne du tableau
 	 */
 	public void changeEtat(){
-		System.out.print(this.isSelected());
 		if(this.isSelected()){
 			this.setSelected(false);
 			lampesAllumees--;
@@ -70,18 +67,18 @@ public class Lampe extends JToggleButton{
 			this.setSelected(true);
 			lampesAllumees++;
 		}
-		if(lampesAllumees==0)
-		System.out.print(this.isSelected());
-		System.out.print(lampesAllumees);
+		if(lampesAllumees==0){
+			Fenetre.mode=4;
+		}
 	}
-/**
- * ????????????????????
- */
+	/**
+	 * Surcharge de la méthode d'affichage des lampes pour un modèle personnalisé
+	 */
 	@Override
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         if (getModel().isPressed()) {
-            g.setColor(Color.green);//(g.getColor());
+            g.setColor(Color.green);
             g2.fillRect(3, 3, getWidth() - 6, getHeight() - 6);
         }
         super.paintComponent(g);

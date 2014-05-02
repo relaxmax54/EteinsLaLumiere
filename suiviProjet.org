@@ -1,5 +1,0 @@
-* TODO alignement des boutons
-* TODO adhésion au cahier des charges
-** modes
-* TODO 
-* TODO Javadoc
